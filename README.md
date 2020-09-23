@@ -1,5 +1,5 @@
 # KCC
-Parallel implementation of k Closest Circles (KCC) algorithm [1] using Nvidia CUDA and C.
+Parallel implementation of k-Closest Circles (KCC) algorithm [1] using Nvidia CUDA and C.
 
 ## Description
 Given a set of points, this algorithm groups them around circles such that the sum of distances from the data points and appropriate closest circles is minimized.
@@ -9,8 +9,7 @@ The problem is solved by application of the center-based clustering method.
 
 ## Input data
 The algorithm takes as input multiple sets of data points in the 2-dimensional euclidean space (called 'events'), and for each event it runs the k-closest circles algorithm.
-The input data file can be given as argument from the command line. Otherwise, the default location of input data is Input/batch00.dat.
-<code>database</code>
+The input data file can be given as argument from the command line. Otherwise, the default location of input data is <code>Input/batch00.dat</code>.
 
 
 ## Efficiency
@@ -47,14 +46,14 @@ Circle 2 => (x_2, y_2) - radius_2
 ```
 
 They are also saved in raw format.
-Initially there is the number of the event, and it is followed by the cycles (x, y, and its radius).
+Initially there is the number of the event and the number of circles, and it is followed by the cycles (x, y, and its radius).
 
 ```
-1
+1, C_1
 X_1, Y_1, Radius_1
 X_2, Y_2, Radius_2
 . . .
-2
+2, C_2
 X_1, Y_1, Radius_1
 X_2, Y_2, Radius_2
 . . .
