@@ -106,17 +106,20 @@ void printResults(inputData *data) {
 	int *numResult;
 
 	FILE *myFile = fopen("Results.txt", "w");
+	FILE *myFile_raw = fopen("Results_raw.txt", "w");
 	Result = (double *)malloc(data->numEvents * 3 * MAX_CIRCLES * sizeof(double));
 	numResult = (int *)malloc(data->numEvents * sizeof(int));
 	gpuErrchk(cudaMemcpy(Result, cResult, data->numEvents * 3 * MAX_CIRCLES * sizeof(double), cudaMemcpyDeviceToHost));
 	gpuErrchk(cudaMemcpy(numResult, cnumResult, data->numEvents * sizeof(int), cudaMemcpyDeviceToHost));
 
 	for (int i = 0; i < data->numEvents; i++) {
-		printf("Event: %d -> numCircles=%d\n", i + 1, numResult[i]);
-		fprintf(myFile, "Event: %d -> numCircles=%d\n", i + 1, numResult[i]);
+		printf("Event: %d -> number of circles = %d\n", i + 1, numResult[i]);
+		fprintf(myFile, "Event: %d -> number of circles = %d\n", i + 1, numResult[i]);
+		fprintf(myFile_raw, "%d,%d\n", i + 1, numResult[i]);
 		for (int j = 0; j < numResult[i]; j++) {
-			printf("Circle %d => (%f, %f)->%f\n", (j + 1), Result[i * 3 * MAX_CIRCLES + j * 3 + 0], Result[i * 3 * MAX_CIRCLES + j * 3 + 1], Result[i * 3 * MAX_CIRCLES + j * 3 + 2]);
-			fprintf(myFile, "Circle %d => (%f, %f)->%f\n", (j + 1), Result[i * 3 * MAX_CIRCLES + j * 3 + 0], Result[i * 3 * MAX_CIRCLES + j * 3 + 1], Result[i * 3 * MAX_CIRCLES + j * 3 + 2]);
+			printf("Circle %d => (%f, %f) - %f\n", (j + 1), Result[i * 3 * MAX_CIRCLES + j * 3 + 0], Result[i * 3 * MAX_CIRCLES + j * 3 + 1], Result[i * 3 * MAX_CIRCLES + j * 3 + 2]);
+			fprintf(myFile, "Circle %d => (%f, %f) - %f\n", (j + 1), Result[i * 3 * MAX_CIRCLES + j * 3 + 0], Result[i * 3 * MAX_CIRCLES + j * 3 + 1], Result[i * 3 * MAX_CIRCLES + j * 3 + 2]);
+			fprintf(myFile_raw, "%f, %f, %f\n", Result[i * 3 * MAX_CIRCLES + j * 3 + 0], Result[i * 3 * MAX_CIRCLES + j * 3 + 1], Result[i * 3 * MAX_CIRCLES + j * 3 + 2]);
 		}
 		printf("\n\n");
 		fprintf(myFile, "\n\n");
